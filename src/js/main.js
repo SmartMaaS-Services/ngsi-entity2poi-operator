@@ -129,14 +129,20 @@ var entity2poi, processData, processEntity;
                 if(entity[attr].hasOwnProperty('type')) {
                     if (entity[attr].type !== 'LineString') {
                         infoWindow += '<span style="font-size:12px;"><b>' + attr + ": </b> ";
-                        infoWindow += JSON.stringify(entity[attr], null, 4);
+                        if (attr === 'location') {
+                            infoWindow += JSON.stringify(entity[attr].coordinates, null, 2);
+                        }
                     }
                 }
             } else {
-                infoWindow += '<span style="font-size:12px;"><b>' + attr + ": </b> ";
-                infoWindow += entity[attr];
+                if (attr !== 'id' && attr !== 'name' && attr !== 'type') {
+                    infoWindow += '<span style="font-size:12px;"><b>' + attr + ": </b> ";
+                    infoWindow += entity[attr];
+                }
             }
-            infoWindow +=  "</span><br />";
+            if (attr !== 'id' && attr !== 'name' && attr !== 'type') {
+                infoWindow +=  "</span><br />";
+            }
         }
         infoWindow += "</div>";
 
