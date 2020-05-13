@@ -1,6 +1,8 @@
 ## 3.2.1 (2019-XX-XX)
 
 - Add tooltip title
+- Little adjustment for tooltip title
+- Ignore location in infowindow if type is LineString
 
 
 ## 3.2.0 (2019-05-13)
