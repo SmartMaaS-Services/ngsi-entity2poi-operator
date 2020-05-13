@@ -89,12 +89,18 @@ var entity2poi, processData, processEntity;
     };
 
     entity2poi = function entity2poi(entity, coordinates, geojson) {
+        var title = entity.id;
+
+        if (entity.hasOwnProperty('name')) {
+            title = entity.name;
+        }
+
         var poi = {
             id: entity.id,
             icon: icon,
-            tooltip: entity.id,
+            tooltip: title,
             data: entity,
-            title: entity.id,
+            title: title,
             infoWindow: buildInfoWindow.call(this, entity),
         };
 
@@ -119,10 +125,15 @@ var entity2poi, processData, processEntity;
     var buildInfoWindow = function buildInfoWindow(entity) {
         var infoWindow = "<div>";
         for (var attr in entity) {
-            infoWindow += '<span style="font-size:12px;"><b>' + attr + ": </b> ";
             if (entity[attr] != null && typeof entity[attr] === "object") {
-                infoWindow += JSON.stringify(entity[attr], null, 4);
+                if(entity[attr].hasOwnProperty('type')) {
+                    if (entity[attr].type !== 'LineString') {
+                        infoWindow += '<span style="font-size:12px;"><b>' + attr + ": </b> ";
+                        infoWindow += JSON.stringify(entity[attr], null, 4);
+                    }
+                }
             } else {
+                infoWindow += '<span style="font-size:12px;"><b>' + attr + ": </b> ";
                 infoWindow += entity[attr];
             }
             infoWindow +=  "</span><br />";
